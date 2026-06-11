@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS // Next-Gen Digital Agency</title>
+    <!-- Google Fonts: Syne for Bold Sans, DM Serif Display for Elegant Serif -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- RESET & VARIABLES --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --bg-color: #0d0d0d;
+            --text-color: #f5f5f7;
+            --accent-color: #ff3b30;
+            --muted-color: #8e8e93;
+            --font-sans: 'Syne', sans-serif;
+            --font-serif: 'DM Serif Display', serif;
+            --transition-smooth: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-sans);
+            overflow-x: hidden;
+        }
+
+        body {
+            position: relative;
+        }
+
+        /* --- REVEAL ANIMATION SYSTEM --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: var(--transition-smooth);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 2rem 4%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            mix-blend-mode: difference;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.6;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 4%;
+            padding-top: 100px;
+        }
+
+        .hero-tag {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 7vw, 6.5rem);
+            line-height: 1.05;
+            font-weight: 800;
+            max-width: 1200px;
+            letter-spacing: -2px;
+        }
+
+        .hero h1 span.serif {
+            font-family: var(--font-serif);
+            font-weight: 400;
+            font-style: italic;
+            color: transparent;
+            -webkit-text-stroke: 1px var(--text-color);
+        }
+
+        .hero-footer {
+            margin-top: 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .hero-desc {
+            font-size: 1.2rem;
+            max-width: 450px;
+            color: var(--muted-color);
+            line-height: 1.6;
+        }
+
+        .cta-scroll {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 2px solid var(--text-color);
+            padding-bottom: 5px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .cta-scroll:hover {
+            border-bottom-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        /* --- PORTFOLIO GRID --- */
+        .portfolio {
+            padding: 10rem 4%;
+        }
+
+        .section-header {
+            margin-bottom: 5rem;
+        }
+
+        .section-header h2 {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-family: var(--font-serif);
+            font-weight: 400;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: 1fr; gap: 2.5rem; }
+        }
+
+        .project-card {
+            text-decoration: none;
+            color: var(--text-color);
+            display: block;
+            cursor: pointer;
+        }
+
+        /* Parallax effect container */
+        .image-container {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            overflow: hidden;
+            background-color: #1a1a1a;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .image-container { height: 400px; }
+        }
+
+        /* Placeholder styles simulating highly aesthetic interactive mockups */
+        .mockup-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            filter: grayscale(20%);
+        }
+
+        /* Custom visual designs built inside CSS to look like high-end renders */
+        .mockup-design {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-serif);
+            font-size: 3rem;
+            color: rgba(255,255,255,0.1);
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .p-1 { background: linear-gradient(135deg, #1e1e24, #0a0a0c); border: 1px solid #333;}
+        .p-2 { background: linear-gradient(135deg, #ff3b30, #660000); }
+        .p-3 { background: linear-gradient(135deg, #2c3e50, #000000); }
+        .p-4 { background: linear-gradient(135deg, #111, #222); border: 1px solid #333;}
+
+        .project-card:hover .mockup-img,
+        .project-card:hover .mockup-design {
+            transform: scale(1.05);
+        }
+
+        .project-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .project-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .project-category {
+            font-size: 0.9rem;
+            color: var(--muted-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* --- OUR PROCESS SECTION --- */
+        .process {
+            padding: 5rem 4% 10rem 4%;
+            background-color: #080808;
+        }
+
+        .process-list {
+            margin-top: 4rem;
+        }
+
+        .process-step {
+            display: grid;
+            grid-template-columns: 0.5fr 1fr 1.5fr;
+            padding: 3rem 0;
+            border-top: 1px solid #222;
+            transition: border-color 0.3s ease;
+        }
+
+        .process-step:last-child {
+            border-bottom: 1px solid #222;
+        }
+
+        .process-step:hover {
+            border-color: var(--text-color);
+        }
+
+        .step-num {
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+
+        .step-title {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .step-desc {
+            font-size: 1.1rem;
+            color: var(--muted-color);
+            line-height: 1.6;
+            max-width: 500px;
+        }
+
+        @media (max-width: 768px) {
+            .process-step {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                padding: 2rem 0;
+            }
+        }
+
+        /* --- CONTACT FORM --- */
+        .contact {
+            padding: 10rem 4%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .contact-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
+        }
+
+        .contact-heading h2 {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -2px;
+        }
+
+        .contact-heading h2 span {
+            font-family: var(--font-serif);
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-group {
+            position: relative;
+            margin-bottom: 3.5rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px 0;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid #444;
+            color: var(--text-color);
+            font-family: var(--font-sans);
+            font-size: 1.2rem;
+            outline: none;
+            transition: border-color 0.4s ease;
+        }
+
+        .form-input:focus {
+            border-bottom-color: var(--text-color);
+        }
+
+        .form-label {
+            position: absolute;
+            left: 0;
+            top: 10px;
+            color: var(--muted-color);
+            pointer-events: none;
+            transition: var(--transition-smooth);
+            font-size: 1.2rem;
+        }
+
+        /* Floating label logic */
+        .form-input:focus ~ .form-label,
+        .form-input:not(:placeholder-shown) ~ .form-label {
+            top: -20px;
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .submit-btn {
+            align-self: flex-start;
+            background: transparent;
+            border: 1px solid var(--text-color);
+            color: var(--text-color);
+            padding: 1.2rem 3rem;
+            font-family: var(--font-sans);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border-radius: 50px;
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+            transition: color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--text-color);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: -1;
+        }
+
+        .submit-btn:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .submit-btn:hover {
+            color: var(--bg-color);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            padding: 2rem 4%;
+            border-top: 1px solid #111;
+            display: flex;
+            justify-content: space-between;
+            color: #444;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <div class="logo">Nexus</div>
+        <div class="nav-links">
+            <a href="#portfolio">Work</a>
+            <a href="#process">Process</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-tag">Digital Production Studio</div>
+        <h1>We turn ordinary ideas into <span class="serif">extraordinary</span> digital experiences.</h1>
+        
+        <div class="hero-footer">
+            <p class="hero-desc">An elite design and engineering partner crafted specifically for high-growth startups hungry for premium aesthetics.</p>
+            <div class="cta-scroll" onclick="document.getElementById('portfolio').scrollIntoView();">Explore Artifacts ↓</div>
+        </div>
+    </section>
+
+    <!-- PORTFOLIO GRID -->
+    <section class="portfolio" id="portfolio">
+        <div class="section-header reveal">
+            <h2>Selected Creations</h2>
+        </div>
+
+        <div class="grid">
+            <!-- Project 1 -->
+            <a href="#contact" class="project-card reveal">
+                <div class="image-container">
+                    <div class="mockup-design p-1">
+                        <span style="font-size: 1.2rem; font-family: var(--font-sans); letter-spacing: 4px; color: #666;">FUTURISTIC WEB SYSTEM</span>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <div class="project-title">Aether Platform</div>
+                    <div class="project-category">Web Architecture</div>
+                </div>
+            </a>
+
+            <!-- Project 2 -->
+            <a href="#contact" class="project-card reveal" style="margin-top: 3rem;">
+                <div class="image-container">
+                    <div class="mockup-design p-2">
+                        <span style="color: #000; font-weight: bold;">[ B ]</span>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <div class="project-title">Kinetix Lab</div>
+                    <div class="project-category">Branding Identity</div>
+                </div>
+            </a>
+
+            <!-- Project 3 -->
+            <a href="#contact" class="project-card reveal">
+                <div class="image-container">
+                    <div class="mockup-design p-3">
+                        <span style="font-size: 4rem; transform: rotate(-5deg); color: #fff;">3D</span>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <div class="project-title">Oasis Real Estate</div>
+                    <div class="project-category">3D Dimension Assets</div>
+                </div>
+            </a>
+
+            <!-- Project 4 -->
+            <a href="#contact" class="project-card reveal" style="margin-top: 3rem;">
+                <div class="image-container">
+                    <div class="mockup-design p-4">
+                        <span style="font-family: var(--font-sans); font-size: 1rem; color: var(--accent-color);">0101011</span>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <div class="project-title">Vespera App</div>
+                    <div class="project-category">UI / UX Design</div>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- OUR PROCESS SECTION -->
+    <section class="process" id="process">
+        <div class="section-header reveal">
+            <h2>The Method</h2>
+        </div>
+
+        <div class="process-list">
+            <div class="process-step reveal">
+                <div class="step-num">01</div>
+                <div class="step-title">Discovery</div>
+                <div class="step-desc">Deep immersion sessions to dissect your startup's core vision, mapping market gaps alongside precise technological requirements.</div>
+            </div>
+
+            <div class="process-step reveal">
+                <div class="step-num">02</div>
+                <div class="step-title">Design</div>
+                <div class="step-desc">Crafting premium UI layouts, high-fidelity interactive 3D assets, and dynamic branding systems built explicitly to capture venture attention.</div>
+            </div>
+
+            <div class="process-step reveal">
+                <div class="step-num">03</div>
+                <div class="step-title">Launch</div>
+                <div class="step-desc">Pixel-perfect engineering implementation paired with fluid layout animations designed for lightning-fast deployments.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT FORM -->
+    <section class="contact" id="contact">
+        <div class="contact-layout">
+            <div class="contact-heading reveal">
+                <h2>Let’s talk about <span>your project</span>.</h2>
+            </div>
+
+            <div class="contact-form reveal">
+                <form onsubmit="event.preventDefault(); alert('Inquiry received securely. Prepare for transformation.');">
+                    <div class="form-group">
+                        <input type="text" id="name" class="form-input" placeholder=" " required>
+                        <label for="name" class="form-label">Your Name</label>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="email" id="email" class="form-input" placeholder=" " required>
+                        <label for="email" class="form-label">Email Address</label>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" id="idea" class="form-input" placeholder=" " required>
+                        <label for="idea" class="form-label">Tell us about the venture</label>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Initiate Brief</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div>© 2026 Nexus Agency. All Rights Reserved.</div>
+        <div>Designed for the future.</div>
+    </footer>
+
+    <!-- INTERACTIVE ANIMATION ENGINE -->
+    <script>
+        // Smooth reveal-on-scroll function using IntersectionObserver
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // Stops observing once triggered
+                }
+            });
+        }, observerOptions);
+
+        // Apply observation to all elements flagged to reveal
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Interactive mouse movement tilt effect for modern portfolio layouts
+        const containers = document.querySelectorAll('.image-container');
+        containers.forEach(container => {
+            const element = container.querySelector('.mockup-design, .mockup-img');
+            
+            container.addEventListener('mousemove', (e) => {
+                const rect = container.getBoundingClientRect();
+                const x = e.clientX - rect.left - (rect.width/2);
+                const y = e.clientY - rect.top - (rect.height/2);
+                
+                // Subtle 3D dynamic shifting effect based on position
+                element.style.transform = `scale(1.05) translate(${x * 0.04}px, ${y * 0.04}px)`;
+            });
+
+            container.addEventListener('mouseleave', () => {
+                element.style.transform = 'scale(1) translate(0px, 0px)';
+            });
+        });
+    </script>
+</body>
+</html>
